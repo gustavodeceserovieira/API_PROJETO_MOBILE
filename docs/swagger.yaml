@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: API Sistema de Alunos
+  version: 1.0.0
+  description: API para gerenciamento de alunos
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /post_alunos:
+    post:
+      summary: Cria um novo aluno
+      description: Insere um aluno no banco de dados
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rg_aluno:
+                  type: integer
+                  example: 191919191919
+                nome:
+                  type: string
+                  example: pix
+                data_nascimento:
+                  type: string
+                  format: date
+                  example: 2004-02-10
+                frequencia:
+                  type: number
+                  example: 87.5
+                faltas:
+                  type: integer
+                  example: 4
+                mensalidade:
+                  type: integer
+                  example: 0
+                data_cadastro:
+                  type: string
+                  format: date
+                example: 2026-08-03
+                id_categoria:
+                  type: integer
+                  example: 1
+      responses:
+        201:
+          description: Aluno criado com sucesso
+
+  /:
+    get:
+      summary: Verifica se a API está funcionando
+      description: Endpoint simples para testar se a API está ativa
+      responses:
+        200:
+          description: API funcionando
+
+
+  /get_alunos:
+    get:
+      summary: Retorna os alunos no banco de dados do sistema
+      description:
+      responses:
+        200:
+          description: Usuários no banco de dados

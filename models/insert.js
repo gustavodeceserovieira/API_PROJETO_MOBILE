@@ -9,7 +9,6 @@ export async function salva_dados_alunos(dados){
   return rows
 }
 
-
 export async function salva_dados_resp(dados) {
   const [rows] = await db.execute('INSERT INTO responsaveis (nome, telefone,rg_aluno) VALUES (?,?,?)',[dados['Resp'], dados['Tel'],dados['Rg']])
   return rows
