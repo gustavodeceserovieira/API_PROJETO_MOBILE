@@ -17,6 +17,7 @@ export async function atualiza_dados_responsaveis(dados,rg){
   const[rows] = await db.execute('UPDATE responsaveis SET nome=?, telefone=? WHERE rg_aluno=?',[dados['Nome'],dados['Tel'],rg])
   return rows
 }
+
 export async function atualiza_mensalidade(dados){
   const[rows] = await db.execute('UPDATE aluno SET mensalidade=? WHERE rg_aluno=? and mensalidade=0',[dados['Mensalidade'],dados['Rg']])
   return rows

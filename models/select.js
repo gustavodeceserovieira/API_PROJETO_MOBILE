@@ -36,7 +36,7 @@ export async function get_responsaveis() {
   const [rows] = await db.execute('SELECT * FROM responsaveis order by rg_aluno asc');
   return rows
 }
-export async function get_responsaveis_rg(rg) {
+export async function get_responsaveis_aluno(rg) {
   const [rows] = await db.execute('SELECT nome, telefone FROM responsaveis WHERE rg_aluno=? order by rg_aluno asc',[rg]);
   return rows[0]
 }
