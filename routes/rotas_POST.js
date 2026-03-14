@@ -1,5 +1,5 @@
 import Router from 'express'
-import { cria_usuario, insere_ajustes, insere_presenca, salva_dados_alunos, salva_dados_resp } from '../models/insert.js';
+import { cria_usuario, insere_ajustes,insere_presenca, salva_dados_alunos, salva_dados_resp } from '../models/insert.js';
 
 const router = Router()
 
@@ -55,8 +55,8 @@ router.post("/cria_usuario", async (req, res) => {
 
 router.post("/insere_ajustes", async (req, res) => {
   try{
-    const insere_ajustes = await insere_ajustes(req.body.qtdAulas, req.body.valorMensalidade, req.body.viradaMes)
-    res.json(insere_ajustes)
+    const insereAjustes = await insere_ajustes(req.body.qtdAulas, req.body.valorMensalidade, req.body.viradaMes)
+    res.json(insereAjustes)
   }catch(err){
     res.status(500).json({
       mensagem: `Erro ${err.message}`
@@ -85,8 +85,8 @@ router.post("/insere_presenca", async (req, res) => {
       "Nome":req.body.nome,
       "Data":req.body.data,
     }
-  const insere_presenca = await insere_presenca(dados)
-  res.json(insere_presenca)
+  const inserePresenca = await insere_presenca(dados)
+  res.json(inserePresenca)
   }catch(err){
     res.status(500).json({
       mensagem: `Erro ${err.message}`

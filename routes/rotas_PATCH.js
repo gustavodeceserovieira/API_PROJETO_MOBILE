@@ -94,8 +94,8 @@ router.patch("/atualiza_frequencia", async (req, res) => {
 
 router.patch("/zera_mensalidade", async (req, res) => {
   try{
-    const zera_mensalidade = await zera_mensalidade()
-    res.json(zera_mensalidade);
+    const zeraMensalidade = await zera_mensalidade()
+    res.json(zeraMensalidade);
   }catch(err){
     res.status(500).json({
       mensagem: `Erro ${err.message}`

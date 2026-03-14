@@ -5,7 +5,6 @@ const router = Router()
 
 
 router.delete("/deleta_aluno_historico", async (req, res) => {
-
     try{
         const aluno = await deleta_aluno_historico(req.body.rg_aluno)
         res.json(aluno);

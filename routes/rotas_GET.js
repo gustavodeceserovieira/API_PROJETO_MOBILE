@@ -1,6 +1,7 @@
 import Router from 'express'
 import get_ajustes, { get_alunos, get_categoria, get_responsaveis, get_alunos_rg,get_responsaveis_aluno, retorna_alunos_por_categoria, retorna_categorias, retorna_categorias_dos_alunos, retorna_devedores, retorna_devedores_por_id, retorna_historico_pagamento, retorna_presenca,login,get_rg } from '../models/select.js';
 
+
 const router = Router()
 
 
@@ -89,8 +90,8 @@ router.get("/get_responsaveis_aluno", async (req, res) => {
 
 router.get("/login", async (req, res) => {
   try{
-    const login = await login()
-    res.json(login);
+    const log = await login()
+    res.json(log);
   }catch(err){
     res.status(500).json({
       mensagem: `Erro ${err.message}`

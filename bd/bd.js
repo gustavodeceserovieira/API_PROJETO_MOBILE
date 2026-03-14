@@ -3,18 +3,14 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-
-async function getConexao() {
-    const bd = await mysql.createConnection({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_NAME,
-    port:process.env.PORT_DB
-  });
-  return bd;
-}
+const pool = mysql.createPool({
+  host:process.env.DB_HOST,
+  user:process.env.DB_USER,
+  password:process.env.DB_PASSWORD,
+  database:process.env.DB_NAME,
+  port:process.env.PORT_DB
+});
 
 
-export default getConexao;
+export default pool;
 
