@@ -1,5 +1,4 @@
 import pool from '../bd/bd.js'
-
 export async function salva_dados_alunos(dados){
   const [rows] = await pool.execute('INSERT INTO aluno (rg_aluno, nome, data_nascimento, frequencia, Faltas, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?)',
     [dados['Rg'],dados['Nome'], dados['Data_nascimento'], dados['Frequencia'], dados['Faltas'], dados['Mensalidade'], dados['Data_cadastro'],dados["Id_categoria"]]

@@ -48,6 +48,10 @@ export async function login(){
     'usuarios':rows
   }
 }
+
+export async function Usuarios(params) {
+  
+}
 export async function retorna_presenca(){
   const [rows] = await pool.execute('SELECT * FROM presenca order by data_presenca desc');
   return rows
