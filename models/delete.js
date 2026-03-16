@@ -16,3 +16,10 @@ export async function deleta_presenca_aluno(rg_aluno){
   const[rows] = await pool.execute('DELETE FROM presenca WHERE rg_aluno=?',[rg_aluno])
   return rows
 }
+export async function deleta_usuario(usuario){
+  const query = await pool.execute('SET SQL_SAFE_UPDATES=0')
+  const row = await pool.execute('DELETE FROM usuario WHERE nome=?',[usuario])
+  const query1 = await pool.execute('SET SQL_SAFE_UPDATES=1')
+  return row
+}
+

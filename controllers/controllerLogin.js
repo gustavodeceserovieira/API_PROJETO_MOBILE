@@ -8,8 +8,8 @@ dotenv.config()
 
 export async function fazlogin(req,res) {
     const dadosUsuario = {
-        'usuario':req.body.nome.trim(),
-        'senha': req.body.password.trim()
+        'usuario':req.body.email,
+        'senha': req.body.password
     }
     const dadosUsuariobanco = await login();
     const ajustes = await get_ajustes();
@@ -17,7 +17,7 @@ export async function fazlogin(req,res) {
         if(ajustes['qtd'] == 0){
             return
         }
-        if(element['nome'] == dadosUsuario['usuario'] && element['senha'] == dadosUsuario['senha']){
+        if(element['nome'] == dadosUsuario['usuario'] && await bcrypt.compare(dadosUsuario['senha'], element['senha'])){
             const payload = {
                 idUsuario: element.rg_aluno,
                 usuario: element.nome,
@@ -36,6 +36,7 @@ export async function fazlogin(req,res) {
     return res.status(401).json({
         mensagem:"Usuário ou senha inválidos"
     })
+  
 }
 
 export default fazlogin;

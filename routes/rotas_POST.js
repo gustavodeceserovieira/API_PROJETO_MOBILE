@@ -1,6 +1,6 @@
 import Router from 'express'
 import { criaUsuario } from '../controllers/controllerUsuarios.js';
-import { cadastraAluno } from '../controllers/controllerCadastro.js';
+import { cadastraAluno } from '../controllers/controllerAluno.js';
 import { ajustes } from '../controllers/controllerAjustes.js';
 import {Mensalidade} from '../controllers/controllerMensalidade.js';
 import { registraPresenca } from '../controllers/controllerPresenca.js';
@@ -23,7 +23,7 @@ router.post("/cria_usuario", jwtAuth, authorize(['ADMIN']), async (req, res) => 
 });
 
 
-router.post("/salva_alunos", jwtAuth, authorize(['ADMIN']), async (req, res) => {
+router.post("/cria_aluno", jwtAuth, authorize(['ADMIN']), async (req, res) => {
   try{
     await cadastraAluno(req,res)
   }catch(err){
@@ -67,7 +67,7 @@ router.post("/insere_presenca", jwtAuth, authorize(['ADMIN']),  async (req, res)
 });
 
 
-router.post("/login",jwtAuth, authorize(['ADMIN']), async (req, res) => {
+router.post("/login", async (req, res) => {
   try{
     await fazlogin(req,res)
   }catch(err){

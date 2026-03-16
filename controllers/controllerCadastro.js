@@ -24,13 +24,13 @@ export async function cadastraAluno(req,res) {
     for (const alunos of dadosBanco) {
     if(alunos['rg_aluno'] == req.body.rg){
         res.staus(409).json({
-            mensagem:"Usuário já está cadastrado!"
+            mensagem:"Aluno já está cadastrado!"
         })
         }
     }
     await salva_dados_alunos(dados)
     await salva_dados_resp(dados)
     return res.staus(201).json({
-        mensagem:"Usuário cadastrado com sucesso!"
+        mensagem:"Aluno cadastrado com sucesso!"
     })
 }

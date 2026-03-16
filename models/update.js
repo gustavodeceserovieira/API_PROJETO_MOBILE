@@ -1,6 +1,6 @@
 import pool from '../bd/bd.js'
 
-export async function atualiza_dados(dados,rg){
+export async function atualiza_dados_cadastro(dados,rg){
   const[rows] = await pool.execute('UPDATE aluno SET nome=?, data_nascimento=?, id_categoria=? WHERE rg_aluno=?',
     [dados['Nome'],dados['Data_nascimento'],dados['Id_categoria'],rg])
   return rows

@@ -34,7 +34,7 @@ router.patch("/zera_mensalidade", jwtAuth, authorize(['ADMIN']), async (req, res
 
 
 
-router.patch("/atualiza_dados", jwtAuth, authorize(['ADMIN']), async (req, res) => {
+router.patch("/atualiza_dados_aluno", jwtAuth, authorize(['ADMIN']), async (req, res) => {
   try{
     await editaAluno(req,res)
   }catch(err){

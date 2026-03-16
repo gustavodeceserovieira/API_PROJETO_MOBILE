@@ -47,9 +47,6 @@ export async function login(){
     'quantidade':rows.length,
     'usuarios':rows
   }
-}
-
-export async function Usuarios(params) {
   
 }
 export async function retorna_presenca(){
@@ -80,4 +77,10 @@ export async function retorna_categorias_dos_alunos(){
 export async function get_categoria(nome) {
   const [rows] = await pool.execute('SELECT id FROM categorias where nome_categoria=?',[nome]);
   return rows[0]['id']
+}
+
+
+export async function get_usuarios() {
+   const [rows] = await pool.execute('SELECT nome FROM usuario');
+   return rows;
 }

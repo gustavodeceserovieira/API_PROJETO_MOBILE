@@ -7,11 +7,19 @@ info:
 servers:
   - url: http://localhost:3000
 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
 paths:
-  /post_alunos:
+
+  /login:
     post:
-      summary: Cria um novo aluno
-      description: Insere um aluno no banco de dados
+      summary: Login
+      description: Fazer login no sistema
       requestBody:
         required: true
         content:
@@ -19,49 +27,194 @@ paths:
             schema:
               type: object
               properties:
-                rg_aluno:
+                email:
+                  type: string
+                  example: 191919191919
+                password:
+                  type: string
+                  example: pix
+      responses:
+        201:
+            description: Usuário autenticado com sucesso
+            token: Berarer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        401:
+          description: Falha na autenticação
+
+  /cria_aluno:
+    post:
+      summary: Cria um novo aluno
+      description: Insere um aluno no banco de dados
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rg:
                   type: integer
                   example: 191919191919
                 nome:
                   type: string
                   example: pix
+                resp:
+                  type: string
+                  example : responsavel
+                tel:
+                  type: string
+                  example : (xx) xxxxx-xxxx
                 data_nascimento:
                   type: string
                   format: date
-                  example: 2004-02-10
-                frequencia:
-                  type: number
-                  example: 87.5
-                faltas:
-                  type: integer
-                  example: 4
+                  example: 10/10/2012
                 mensalidade:
                   type: integer
                   example: 0
-                data_cadastro:
+                categoria:
                   type: string
-                  format: date
-                example: 2026-08-03
-                id_categoria:
-                  type: integer
-                  example: 1
+                  example: SUB 7
       responses:
         201:
-          description: Aluno criado com sucesso
+          description: Aluno criado com sucesso!
+        401:
+          description: Acesso negado, sem permissão!
 
-  /:
-    get:
-      summary: Verifica se a API está funcionando
-      description: Endpoint simples para testar se a API está ativa
+  /cria_usuario:
+    post:
+      summary: Cria um usuário
+      description: Insere um usuário no banco de dados
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: Usuario01
+                senha:
+                  type: string
+                  example: 1234
       responses:
-        200:
-          description: API funcionando
+        201:
+          description: Usuario criado com sucesso!
+        401:
+          description: Acesso negado, sem permissão!
 
+  /get:
+    summary: Verifica se a API está funcionando
+    description: Endpoint simples para testar se a API está ativa
+    responses:
+      200:
+        description: API funcionando
 
   /get_alunos:
     get:
-      summary: Retorna os alunos no banco de dados do sistema
+      summary: Retorna os alunos no banco de dados
       description:
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Alunos no banco de dados
+
+  /get_usuarios:
+    get:
+      summary: Retorna os usuários no banco de dados
+      description:
+      security:
+        - bearerAuth: []
       responses:
         200:
           description: Usuários no banco de dados
+        401:
+          description: Acesso negado, sem permissão!
+
+
+  /atualiza_dados_aluno:
+    patch:
+      summary: Atualiza dados do aluno
+      description: Atualiza informações cadastrais do aluno(nome, data de nascimento, categoria)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rg:
+                  type: string
+                  example: 8567890978
+                nome_atualizado:
+                  type: string
+                  example: João da silva
+                data_nascimento:
+                  type: string
+                  example: "03/04/2025"
+                categoria:
+                  type: string
+                  example: SUB 7
+      responses:
+        201:
+          description: Aluno atualizado com sucesso!
+        401:
+          description: Acesso negado, sem permissão!
+        404:
+          description: Aluno não encontrado!
+  /deleta_aluno:
+    delete:
+      summary: Remove aluno do banco de dados
+      description: Usa o rg do aluno para deletar ele do banco
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rg:
+                  type: string
+                  example: 8567890978
+      responses:
+        200:
+          description: Aluno deletado com sucesso!
+        401:
+          description: Acesso negado!
+        404:
+          description: aluno não encontrado
+
+  /deleta_usuario:
+    delete:
+      summary: Remove o usuário do banco
+      description: Usa o email(indetificador único) para remover o usuário
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: joao@teste.com
+      responses:
+        200:
+          description: Usuário deletado com sucesso!
+        401:
+          description: Acesso negado!
+        404:
+          description: Usuário não encontrado
+
+
+    

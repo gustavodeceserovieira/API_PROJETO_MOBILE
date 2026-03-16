@@ -1,8 +1,8 @@
 import Router from 'express'
-import { getAlunosCategoria, getAlunosNome, informacoesAlunos } from '../controllers/controllerAluno.js';
+import { getAlunosCategoria, getAlunosNome } from '../controllers/controllerAluno.js';
 import HistoricoPagamento from '../controllers/controllerPagamento.js';
 import { historicoPresenca} from '../controllers/controllerPresenca.js';
-import {login} from '../models/select.js'
+import {get_usuarios} from '../models/select.js'
 import authorize from '../auth/authorize.js';
 import jwtAuth from '../auth/middleware.js';
 
@@ -25,10 +25,9 @@ router.get("/get_alunos", jwtAuth, authorize(['ADMIN','USER']), async (req, res)
 });
 
 
-router.get("/get_usuarios", jwtAuth, authorize(['ADMIN','USER']),async (req, res) => {
+router.get("/get_usuarios", jwtAuth, authorize(['ADMIN','USER']), async (req, res) => {
   try{
-    res.status(200).json(await login())
-
+    res.status(200).json(await get_usuarios())
   }catch(err){
     res.status(500).json({
       mensagem: `Erro ${err.message}`
