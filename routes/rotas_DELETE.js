@@ -7,7 +7,7 @@ const router = Router()
 
 
 
-router.delete("/deleta_aluno",async (req, res) => {
+router.delete("/deleta_aluno", jwtAuth, authorize(['ADMIN']),async (req, res) => {
     try{
       await deletaAluno(req.body.rg,req,res)
     }catch(err){
@@ -17,7 +17,7 @@ router.delete("/deleta_aluno",async (req, res) => {
   }
 });
 
-router.delete("/deleta_usuario", async (req, res) => {
+router.delete("/deleta_usuario", jwtAuth, authorize(['ADMIN']), async (req, res) => {
     try{
       await deletaUsuario(req.body.email,req,res)
     }catch(err){
