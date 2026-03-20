@@ -1,6 +1,7 @@
 import { cria_usuario} from '../models/insert.js';
 import { login} from '../models/select.js';
 import { deleta_usuario } from '../models/delete.js';
+import pool from '../bd/bd.js'
 import bcrypt from 'bcrypt'
 
 
@@ -25,13 +26,23 @@ export async function criaUsuario(req,res) {
 }
 
 export async function deletaUsuario(usuario,req,res) {
-    const resultado = await deleta_usuario(usuario)
-    if(resultado[0].affectedRows === 0){
-        return res.status(404).json({
-            mensagem: "Usuário não encontrado!"
+    const connection = await pool.getConnection()
+    try{
+        await connection.beginTransaction()
+        const resultado = await deleta_usuario(usuario,connection)
+        if(resultado[0].affectedRows === 0){
+            await connection.rollback()
+            return res.status(404).json({
+                mensagem: "Usuário não encontrado!"
+            })
+        }
+        await connection.commit()
+        return res.status(200).json({
+            mensagem: "Usuário deletado com sucesso!"
         })
+    }catch{
+      await connection.rollback() 
+    }finally{
+        connection.release()
     }
-    return res.status(200).json({
-        mensagem: "Usuário deletado com sucesso!"
-    })
 }

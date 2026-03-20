@@ -3,7 +3,7 @@ import {atualiza_dados_cadastro, atualiza_historico_pagamento, atualiza_historic
 import {retorna_alunos_por_categoria,get_alunos,get_rg, get_alunos_rg,get_categoria} from '../models/select.js'
 import get_ajustes, {retorna_categorias} from '../models/select.js';
 import { salva_dados_alunos , salva_dados_resp} from '../models/insert.js';
-
+import pool from '../bd/bd.js'
 //Função para o front end
 // export async function informacoesAlunos(req,res) {
 //     const alunos = await get_alunos();
@@ -59,18 +59,28 @@ export async function cadastraAluno(req,res) {
 }
 
 export async function deletaAluno(rg_aluno,req,res){
-    await deleta_presenca_aluno(rg_aluno)
-    await deleta_aluno_historico(rg_aluno)
-    await deleta_responsaveis_aluno(rg_aluno)
-    const resultado = await deleta_aluno(rg_aluno)
-    if(resultado['affectedRows'] === 0){
-        return res.status(404).json({
-            mensagem: "Aluno não encontrado!"
+    const connection = await pool.getConnection()
+    try{
+        await connection.beginTransaction()
+        await deleta_presenca_aluno(rg_aluno,connection)
+        await deleta_aluno_historico(rg_aluno,connection)
+        await deleta_responsaveis_aluno(rg_aluno,connection)
+        const resultado = await deleta_aluno(rg_aluno,connection)
+        if(resultado['affectedRows'] === 0){
+            await connection.rollback()
+            return res.status(404).json({
+                mensagem: "Aluno não encontrado!"
+            })
+        }
+        await connection.commit()
+        return res.status(200).json({
+            mensagem: "Aluno deletado com sucesso!"
         })
+    }catch(err){
+        await connection.rollback()
+    }finally{
+        connection.release()
     }
-    return res.status(200).json({
-        mensagem: "Aluno deletado com sucesso!"
-    })
 }
 
 export async function editaAluno(req,res) {
