@@ -1,16 +1,16 @@
-import { retorna_historico_pagamento} from "../models/historicoPagamentoModel.js";
+import { getHistoricoPagamento as getHistoricoPagamentoService } from '../services/pagamentoService.js';
 
-export async function HistoricoPagamento(req, res) {
+export async function getHistoricoPagamento(req, res) {
     try {
-        const alunos = await retorna_historico_pagamento()
+        const result = await getHistoricoPagamentoService();
         return res.status(200).json({
-            dados: alunos
-        })
+            dados: result
+        });
     } catch (err) {
         return res.status(500).json({
             mensagem: err.message
-        })
+        });
     }
 }
 
-export default HistoricoPagamento;
+export default getHistoricoPagamento;

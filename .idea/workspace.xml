@@ -5,51 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f6f7af1a-9bcf-499a-96d7-e7f4877656e8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerAjustes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerAluno.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerLogin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerMensalidade.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerPagamento.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerPresenca.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerResponsaveis.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/controllerUsuarios.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/middlewares/validacoes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/ajustesModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/alunoModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/categoriasModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/historicoPagamentoModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/presencaModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/responsaveisModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/usuarioModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/ajustesRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/alunoRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/mensalidadeRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/presencaRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/responsaveisRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/routes/usuarioRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/authorize.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/middleware.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/bd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bd/bd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerAjustes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerAluno.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerCadastro.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerLogin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerMensalidade.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerPagamento.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerPresenca.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerResponsaveis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/controllerUsuarios.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/docs/swagger.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/delete.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/insert.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/select.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/update.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/rotas_DELETE.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/rotas_GET.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/rotas_PATCH.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/rotas_POST.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerAjustes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerAjustes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerAluno.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerAluno.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerMensalidade.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerMensalidade.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerPagamento.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerPagamento.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerPresenca.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerPresenca.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerResponsaveis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerResponsaveis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/controllerUsuarios.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/controllerUsuarios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/alunoModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/alunoModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/categoriasModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/categoriasModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/usuarioModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/usuarioModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/ajustesRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/ajustesRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/alunoRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/alunoRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/historicoPagamentosRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/historicoPagamentosRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/presencaRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/presencaRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/usuarioRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/usuarioRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,27 +49,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Node.js.ajustesRoutes.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "C:/Users/multi/Documents/ADS/mobile/API_PROJETO_MOBILE-main/API_PROJETO_MOBILE/src/middlewares",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "to.speed.mode.migration.done": "true",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2025.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Node.js.ajustesRoutes.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ajuste__estruturacao&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/multi/Documents/ADS/mobile/API_PROJETO_MOBILE-main/API_PROJETO_MOBILE/src/middlewares&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2025.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\multi\Documents\ADS\mobile\API_PROJETO_MOBILE-main\API_PROJETO_MOBILE\src\middlewares" />
@@ -125,7 +97,8 @@
       <workItem from="1773970615658" duration="9885000" />
       <workItem from="1774044120673" duration="166000" />
       <workItem from="1774054830981" duration="2539000" />
-      <workItem from="1774060281277" duration="2184000" />
+      <workItem from="1774060281277" duration="2877000" />
+      <workItem from="1774074178890" duration="8448000" />
     </task>
     <servers />
   </component>

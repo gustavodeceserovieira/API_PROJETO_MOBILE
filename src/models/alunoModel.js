@@ -7,7 +7,7 @@ export async function deleta_aluno(rg_aluno, transaction = pool) {
 
 export async function salva_dados_alunos(dados, transaction = pool) {
     const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, data_nascimento, frequencia, faltas, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?)',
-        [dados['rg'], dados['nome'], dados['data_nascimento'], dados['frequencia'], dados['faltas'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
+        [dados['rg'], dados['nome'], dados['data_nascimento'], dados['frequencia'], dados['faltas'], dados['salvarMensalidade'], dados['data_cadastro'], dados["id_categoria"]]
     );
     return rows
 }
@@ -54,7 +54,7 @@ export async function atualiza_dados_cadastro(dados, rg, transaction = pool) {
 }
 
 export async function atualiza_mensalidade(dados){
-    const[rows] = await pool.execute('UPDATE aluno SET mensalidade=? WHERE rg_aluno=? and mensalidade=0',[dados['mensalidade'],dados['rg']])
+    const[rows] = await pool.execute('UPDATE aluno SET mensalidade=? WHERE rg_aluno=? and mensalidade=0',[dados['salvarMensalidade'],dados['rg']])
     return rows
 }
 
