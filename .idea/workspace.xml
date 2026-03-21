@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f6f7af1a-9bcf-499a-96d7-e7f4877656e8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerAjustes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerAluno.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerLogin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerMensalidade.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerPagamento.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerPresenca.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerResponsaveis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/controllers/controllerUsuarios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/middlewares/validacoes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/ajustesModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/alunoModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/categoriasModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/historicoPagamentoModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/presencaModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/responsaveisModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/models/usuarioModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/ajustesRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/alunoRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/mensalidadeRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/presencaRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/responsaveisRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/routes/usuarioRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/authorize.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/authorize.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/bd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/bd/bd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerAjustes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerAluno.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerCadastro.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerLogin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerMensalidade.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerPagamento.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerPresenca.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerResponsaveis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/controllerUsuarios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/swagger.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/docs/swagger.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/functions/functions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/delete.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/insert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/select.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/update.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/rotas_DELETE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/rotas_GET.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/rotas_PATCH.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/rotas_POST.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="3BB6SuPAlL7wL8NF3hNP6HOLaP0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.ajustesRoutes.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "C:/Users/multi/Documents/ADS/mobile/API_PROJETO_MOBILE-main/API_PROJETO_MOBILE/src/middlewares",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\PhpStorm 2025.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\multi\Documents\ADS\mobile\API_PROJETO_MOBILE-main\API_PROJETO_MOBILE\src\middlewares" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\multi\Documents\ADS\mobile\API_PROJETO_MOBILE-main\API_PROJETO_MOBILE\src" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PS-252.26830.95" />
+        <option value="bundled-php-predefined-a98d8de5180a-9b563d34894c-com.jetbrains.php.sharedIndexes-PS-252.26830.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6f7af1a-9bcf-499a-96d7-e7f4877656e8" name="Changes" comment="" />
+      <created>1773950147294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773950147294</updated>
+      <workItem from="1773950149057" duration="3510000" />
+      <workItem from="1773970615658" duration="9885000" />
+      <workItem from="1774044120673" duration="166000" />
+      <workItem from="1774054830981" duration="2539000" />
+      <workItem from="1774060281277" duration="2184000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
