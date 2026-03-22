@@ -33,9 +33,7 @@ export async function fazlogin(req, res) {
                 if (element.nome == 'Administrador') {
                     payload.role = 'ADMIN'
                 }
-
                 const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '0.5h' });
-
                 return res.status(201).json({
                     mensagem: "Usuário autenticado com sucesso!",
                     token: token

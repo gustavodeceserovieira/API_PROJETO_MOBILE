@@ -5,6 +5,7 @@ info:
   description: API para gerenciamento de alunos
 
 servers:
+  #trocar para http://localhost:3000 quando for rodar local.
   - url: https://api-projeto-mobile-1.onrender.com
 
 components:
@@ -15,7 +16,6 @@ components:
       bearerFormat: JWT
 
 paths:
-
   /login:
     post:
       summary: Login
@@ -54,7 +54,7 @@ paths:
               type: object
               properties:
                 rg:
-                  type: integer
+                  type: string
                   example: 191919191919
                 nome:
                   type: string
