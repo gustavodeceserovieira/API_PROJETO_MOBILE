@@ -25,6 +25,12 @@ app.use(usuarioRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.urlencoded({ extended: true }));
 
+
+//Rota principal
+app.get("/",(req,res) =>{
+    res.redirect("/api-docs")
+})
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
