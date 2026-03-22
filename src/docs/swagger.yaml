@@ -5,7 +5,7 @@ info:
   description: API para gerenciamento de alunos
 
 servers:
-  - url: http://localhost:3000
+  - url: https://api-projeto-mobile-1.onrender.com
 
 components:
   securitySchemes:
