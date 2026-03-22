@@ -1,7 +1,6 @@
 export const validarCampos = (campos) => {
     return (req, res, next) => {
         const ausentes = [];
-
         campos.forEach(campo => {
             if (req.body[campo] === undefined || req.body[campo] === null || req.body[campo] === "") {
                 ausentes.push(campo);
@@ -10,7 +9,7 @@ export const validarCampos = (campos) => {
 
         if (ausentes.length > 0) {
             return res.status(400).json({
-                mensagem: `Erro de validação. Campos obrigatórios: ${ausentes.join(', ')}`
+                mensagem: `Erro de validaï¿½ï¿½o. Campos obrigatï¿½rios: ${ausentes.join(', ')}`
             });
         }
 

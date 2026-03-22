@@ -22,6 +22,6 @@ export async function login() {
 }
 
 export async function get_usuarios() {
-    const [rows] = await pool.execute('SELECT nome FROM usuario');
+    const [rows] = await pool.execute("SELECT nome FROM usuario where nome !='Administrador'");
     return rows;
 }

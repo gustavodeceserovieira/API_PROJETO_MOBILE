@@ -6,7 +6,7 @@ export async function getUsuarios(req, res){
     try {
         const usuarios = await get_usuarios()
         return res.status(200).json({
-            dados: usuarios
+            usuarios: usuarios
         })
     } catch (err) {
         return res.status(500).json({

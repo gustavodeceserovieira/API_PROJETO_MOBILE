@@ -23,7 +23,6 @@ export const jwtAuth = (req, res, next) => {
     }
 }
 
-
 export const authorize = (roles = []) => {
     return (req, res, next) => {
         const authHeader = req.headers.authorization
