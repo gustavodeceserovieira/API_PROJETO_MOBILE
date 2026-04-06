@@ -1,4 +1,4 @@
-import { get_alunos, retorna_categorias_dos_alunos, get_rg, retorna_alunos_por_categoria, salva_dados_alunos, atualiza_dados_cadastro, deleta_aluno } from '../models/alunoModel.js';
+import { get_alunos, retorna_categorias_dos_alunos, get_rg, retorna_alunos_por_categoria, salva_dados_alunos, atualiza_dados_cadastro, deleta_aluno, get_alunos_rg } from '../models/alunoModel.js';
 import { get_ajustes } from '../models/ajustesModel.js';
 import { retorna_categorias, get_categoria } from '../models/categoriasModel.js';
 import { deleta_aluno_historico, atualiza_historico_pagamento } from '../models/historicoPagamentoModel.js';
@@ -24,7 +24,25 @@ export async function informacoesAlunos(req,res) {
     return res.status(200).json({
         alunos:data
     })
+}
+
+export async function informacaoAluno(req,res) {
+    const rg = req.params.rg;
+    const result = await get_alunos_rg(rg);
+
+    if (result.length === 0) {
+        return res.status(404).json({
+            mensagem:"Aluno não encontrado!"
+        })
+    }
     
+    return res.status(200).json({
+        alunos: {
+            ...result[0],
+            mensalidades: [],
+            presencas: []
+        }
+    })
 }
 
 export async function cadastraAluno(req, res) {
