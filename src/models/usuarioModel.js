@@ -12,6 +12,10 @@ export async function cria_usuario(usuario, senha, transaction = pool) {
     return rows
 }
 
+export async function atualizar_senha(id, senha, transaction = pool) {
+    await transaction.execute('UPDATE usuario SET senha=? WHERE id=?', [senha, id]);
+}
+
 export async function login() {
     const [rows] = await pool.execute('SELECT * FROM usuario');
     return {
@@ -21,7 +25,21 @@ export async function login() {
 
 }
 
-export async function get_usuarios() {
-    const [rows] = await pool.execute("SELECT nome FROM usuario where nome !='Administrador'");
+export async function get_usuarios(transaction = pool) {
+    const [rows] = await transaction.execute("SELECT nome FROM usuario where nome !='Administrador'");
     return rows;
+}
+
+export async function salvar_expo_token_usuario(token, id_usuario, transaction = pool) {
+    await transaction.execute('UPDATE usuario SET expo_token=? WHERE id=?', [token, id_usuario]);
+}
+
+export async function get_administrador(transaction = pool) {
+    const [rows] = await transaction.execute("SELECT * FROM usuario WHERE nome = 'Administrador'");
+    return rows[0];
+}
+
+export async function get_usuario_by_id(id, transaction = pool) {
+    const [rows] = await transaction.execute("SELECT * FROM usuario WHERE id = ?", [id]);
+    return rows[0];
 }

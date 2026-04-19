@@ -6,8 +6,8 @@ export async function deleta_aluno(rg_aluno, transaction = pool) {
 }
 
 export async function salva_dados_alunos(dados, transaction = pool) {
-    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, data_nascimento, frequencia, faltas, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?)',
-        [dados['rg'], dados['nome'], dados['data_nascimento'], dados['frequencia'], dados['faltas'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
+    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, telefone, data_nascimento, frequencia, faltas, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?,?)',
+        [dados['rg'], dados['nome'], dados['telefone'], dados['data_nascimento'], dados['frequencia'], dados['faltas'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
     );
     return rows
 }
@@ -18,7 +18,18 @@ export async function get_alunos() {
 }
 
 export async function get_alunos_rg(rg) {
-    const [rows] = await pool.execute('SELECT * FROM aluno WHERE rg_aluno=? order by nome asc', [rg]);
+    const [rows] = await pool.execute(`
+        SELECT 
+            a.*,
+            DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
+            r.nome AS nome_responsavel, 
+            r.telefone AS telefone_responsavel, 
+            r.cpf AS cpf_responsavel, 
+            c.nome_categoria
+        FROM aluno a
+        LEFT JOIN responsaveis r ON a.cpf_responsavel = r.cpf
+        LEFT JOIN categorias c ON a.id_categoria = c.id
+        WHERE rg_aluno=? order by nome asc`, [rg]);
     return rows
 }
 
@@ -48,8 +59,9 @@ export async function retorna_categorias_dos_alunos() {
 }
 
 export async function atualiza_dados_cadastro(dados, rg, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE aluno SET nome=?, data_nascimento=?, id_categoria=? WHERE rg_aluno=?',
-        [dados['nome'], dados['data_nascimento'], dados['id_categoria'], rg])
+    const [rows] = await transaction.execute('UPDATE aluno SET nome=?, telefone=?, data_nascimento=?, id_categoria=? WHERE rg_aluno=?',
+        [dados['nome'], dados['telefone'], dados['data_nascimento'], dados['id_categoria'], rg])
+    
     return rows
 }
 
@@ -80,5 +92,74 @@ export async function atualiza_presenca(dados, transaction = pool) {
     return rows
 }
 
+export async function get_alunos_com_filtros(filtros = {}) {
+    let query = `
+        SELECT 
+            a.*,
+            DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
+            r.nome AS nome_responsavel,
+            r.telefone AS telefone_responsavel,
+            r.cpf AS cpf_responsavel,
+            c.nome_categoria
+        FROM aluno a 
+        LEFT JOIN responsaveis r ON a.cpf_responsavel = r.cpf 
+        LEFT JOIN categorias c ON a.id_categoria = c.id
+        WHERE 1=1`;
+    const params = [];
 
+    if (filtros.id_categoria) {
+        query += ' AND a.id_categoria = ?';
+        params.push(filtros.id_categoria);
+    }
 
+    if (filtros.nome) {
+        query += ' AND (a.nome LIKE ? OR r.nome LIKE ?)';
+        params.push(`%${filtros.nome}%`, `%${filtros.nome}%`);
+    }
+
+    if (filtros.em_dia !== undefined) {
+        if (filtros.em_dia === true || filtros.em_dia === 'true') {
+            query += ' AND a.mensalidade > 0';
+        } else if (filtros.em_dia === false || filtros.em_dia === 'false') {
+            query += ' AND a.mensalidade = 0';
+        }
+    }
+
+    query += ' ORDER BY a.nome ASC';
+
+    const page = parseInt(filtros.page) || 1;
+    const limit = parseInt(filtros.limit) || 5;
+    const offset = (Math.max(1, page) - 1) * limit;
+
+    query += ' LIMIT ? OFFSET ?;';
+    params.push(parseInt(limit), parseInt(offset));
+
+    const [rows] = await pool.query(query, params);
+    return rows;
+}
+
+export async function count_alunos_com_filtros(filtros = {}) {
+    let query = 'SELECT COUNT(DISTINCT a.rg_aluno) as total FROM aluno a LEFT JOIN responsaveis r ON r.cpf = a.cpf_responsavel WHERE 1=1';
+    const params = [];
+
+    if (filtros.id_categoria) {
+        query += ' AND a.id_categoria = ?';
+        params.push(filtros.id_categoria);
+    }
+
+    if (filtros.nome) {
+        query += ' AND (a.nome LIKE ? OR r.nome LIKE ?)';
+        params.push(`%${filtros.nome}%`, `%${filtros.nome}%`);
+    }
+
+    if (filtros.em_dia !== undefined) {
+        if (filtros.em_dia === true || filtros.em_dia === 'true') {
+            query += ' AND a.mensalidade > 0';
+        } else if (filtros.em_dia === false || filtros.em_dia === 'false') {
+            query += ' AND a.mensalidade = 0';
+        }
+    }
+
+    const [result] = await pool.query(query, params);
+    return result[0].total;
+}

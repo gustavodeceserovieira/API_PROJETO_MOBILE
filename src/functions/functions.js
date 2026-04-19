@@ -19,3 +19,20 @@ export function formataData(req) {
     return `${ano}-${mes}-${dia}`
 }
 
+export async function enviarNotificacao(tokenDestinatario, titulo, mensagem) {
+    const response = await fetch('https://exp.host/--/api/v2/push/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Accept-encoding': 'gzip, deflate',
+        },
+        body: JSON.stringify({
+            to: tokenDestinatario,
+            title: titulo,
+            body: mensagem,
+            sound: 'default',
+        }),
+    });
+    return response;
+}

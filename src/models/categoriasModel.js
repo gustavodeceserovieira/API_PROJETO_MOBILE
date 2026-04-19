@@ -1,7 +1,7 @@
 import pool from "../bd/bd.js";
 
 export async function retorna_categorias() {
-    const [rows] = await pool.execute('SELECT * FROM categorias order by rg_aluno');
+    const [rows] = await pool.execute('SELECT * FROM categorias');
     return rows
 }
 

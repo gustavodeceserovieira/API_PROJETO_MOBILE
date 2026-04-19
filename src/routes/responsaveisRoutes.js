@@ -1,10 +1,9 @@
 import Router from 'express';
 import {jwtAuth, authorize} from "../middlewares/authMiddleware.js";
-import {editaResponsavel} from "../controllers/controllerResponsaveis.js";
-import {validarCampos} from '../middlewares/validacoesMiddleware.js';
+import {getResponsavel} from "../controllers/controllerResponsaveis.js";
 
 const router = Router();
 
-router.patch("/atualiza_dados_responsaveis", jwtAuth, authorize(['ADMIN']), validarCampos(['rg', 'nome_atualizado', 'tel']), editaResponsavel);
+router.get("/get_responsavel_cpf/:cpf", jwtAuth, authorize(['ADMIN']), getResponsavel);
 
 export default router;
