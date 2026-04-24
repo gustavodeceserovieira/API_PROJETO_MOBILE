@@ -4,7 +4,7 @@ import { criarCobrancaPix, concluirCobranca } from '../controllers/controllerMer
 
 const router = Router();
 
-router.post("/gerar_cobranca_pix", jwtAuth, authorize(['ADMIN']), criarCobrancaPix);
+router.post("/gerar_cobranca_pix", jwtAuth, criarCobrancaPix);
 router.post("/concluir_cobranca_pix", concluirCobranca);
 
 
