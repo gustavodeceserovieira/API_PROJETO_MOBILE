@@ -1,4 +1,6 @@
 import cron from 'node-cron';
+import pool from '../bd/bd.js';
+import { gerar_mensalidade_mes_todos_alunos } from '../models/mensalidadesModel.js';
 
 let activeCrons = {};
 

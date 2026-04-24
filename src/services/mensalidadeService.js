@@ -70,7 +70,7 @@ export async function executarViradaMes() {
         const dataAtual = new Date().toISOString().split('T')[0];
         const dia = dataAtual.split('-')[2];
         const dataVirada = await get_ajustes();
-        const dia_virada = dataVirada['data_virada'];
+        const dia_virada = dataVirada['data_virada_mes'];
 
         if (dia == dia_virada) {
             await zera_mensalidade(connection);

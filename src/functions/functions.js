@@ -5,18 +5,13 @@ export async function virouMes() {
     const dataAtual = new Date().toISOString().split("T")[0];
     const dia = dataAtual.split("-")[2]
     const dataVirada = await get_ajustes()
-    const dia_virada = dataVirada['data_virada']
+    const dia_virada = dataVirada['data_virada_mes']
     if(dia == dia_virada){
         await zera_mensalidade()
         return true
     }   
 }
 
-export function formataData(req) {
-    const dataFormatada = req.body.data_nascimento
-    const [dia, mes, ano] = dataFormatada.split('/')
-    return `${ano}-${mes}-${dia}`
-}
 
 export async function enviarNotificacao(tokenDestinatario, titulo, mensagem) {
     const response = await fetch('https://exp.host/--/api/v2/push/send', {

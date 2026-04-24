@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { get_usuario_by_id, get_usuario_by_rg, salvar_expo_token_usuario } from '../models/usuarioModel.js';
-import { get_alunos_rg } from '../models/alunoModel.js';
+import { get_alunos_rg, get_resumo } from '../models/alunoModel.js';
 
 dotenv.config();
 
@@ -32,14 +32,15 @@ export async function autenticarUsuario(body) {
                 
                 const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '0.5h' });
 
-                let dadosAluno = {};
+                let dadosAdicionais = {};
 
                 if (payload.role === 'USER') {
                     const aluno = await get_alunos_rg(element.rg_aluno);
-                    dadosAluno = aluno;
+                    dadosAdicionais = aluno;
+                } else {
+                    const resumo = await get_resumo();
+                    dadosAdicionais = resumo;
                 }
-
-                console.log(dadosAluno)
 
                 return {
                     status: 201,
@@ -47,7 +48,7 @@ export async function autenticarUsuario(body) {
                         mensagem: 'Usuário autenticado com sucesso!',
                         token: token,
                         user: {
-                            ...dadosAluno,
+                            ...dadosAdicionais,
                             ...element,
                             role: payload.role,
                         }

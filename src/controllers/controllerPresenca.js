@@ -5,10 +5,6 @@ export async function registraPresenca(req,res){
     return res.status(result.status).json(result.body);
 }
 
-export async function PresencaCategoria(req,res) {
-    return res.status(501).json({ mensagem: 'Não implementado' });
-}
-
 export async function historicoPresenca(req,res) {
     const result = await listarHistoricoPresenca();
     return res.status(result.status).json(result.body);

@@ -11,7 +11,7 @@ export async function criaUsuario(req, res) {
 }
 
 export async function deletaUsuario(req, res) {
-    const result = await removerUsuario(req.body.email);
+    const result = await removerUsuario(req.body.nome);
     return res.status(result.status).json(result.body);
 }
 

@@ -1,7 +1,7 @@
 import pool from "../bd/bd.js";
 
 export async function deleta_aluno_historico(rg_aluno, transaction = pool) {
-    const [rows] = await transaction.query('DELETE FROM historico_pagamento WHERE rg_aluno=?', [rg_aluno])
+    const [rows] = await transaction.execute('DELETE FROM historico_pagamento WHERE rg_aluno=?', [rg_aluno])
     return rows
 }
 

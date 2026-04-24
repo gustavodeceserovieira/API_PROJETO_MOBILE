@@ -134,9 +134,9 @@ export async function criarOuAtualizarUsuario(dadosAluno, connection = pool) {
     const usuario = await get_usuario_by_rg(dadosAluno.rg, connection);
     const hashSenha = await bcrypt.hash(password, 10);
 
-    if (usuario) {
+    if (usuario && !usuario.ultimo_acesso) {
         await atualizar_senha(usuario.id, hashSenha, connection);
-    } else if (!usuario.ultimo_acesso) {
+    } else if (!usuario) {
         await cria_usuario(dadosAluno.nome, hashSenha, dadosAluno.rg, connection);
     }
 }

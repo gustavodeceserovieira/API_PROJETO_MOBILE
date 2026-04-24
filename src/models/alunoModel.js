@@ -6,8 +6,8 @@ export async function deleta_aluno(rg_aluno, transaction = pool) {
 }
 
 export async function salva_dados_alunos(dados, transaction = pool) {
-    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, telefone, data_nascimento, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?,?)',
-        [dados['rg'], dados['nome'], dados['telefone'], dados['data_nascimento'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
+    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, telefone, data_nascimento, mensalidade, data_cadastro, id_categoria, cpf_responsavel) VALUES (?,?,?,?,?,?,?,?)',
+        [dados['rg'], dados['nome'], dados['telefone'], dados['data_nascimento'], dados['mensalidade'], dados['data_cadastro'], dados['id_categoria'], dados['cpf_responsavel']]
     );
     return rows
 }
@@ -62,8 +62,8 @@ export async function retorna_categorias_dos_alunos() {
 }
 
 export async function atualiza_dados_cadastro(dados, rg, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE aluno SET nome=?, telefone=?, data_nascimento=?, id_categoria=? WHERE rg_aluno=?',
-        [dados['nome'], dados['telefone'], dados['data_nascimento'], dados['id_categoria'], rg])
+    const [rows] = await transaction.execute('UPDATE aluno SET nome=?, telefone=?, data_nascimento=?, id_categoria=?, cpf_responsavel=? WHERE rg_aluno=?',
+        [dados['nome'], dados['telefone'], dados['data_nascimento'], dados['id_categoria'], dados['cpf_responsavel'], rg])
     
     return rows
 }
@@ -151,4 +151,14 @@ export async function count_alunos_com_filtros(filtros = {}) {
 
     const [result] = await pool.query(query, params);
     return result[0].total;
+}
+
+export async function get_resumo(transaction = pool) {
+    const [rows] = await transaction.execute(`
+        SELECT 
+            COUNT(*) AS quantidade_alunos,
+            ROUND(AVG(frequencia), 2) AS frequencia_media
+        FROM view_aluno_frequencia;`
+    );
+    return rows[0]
 }

@@ -18,7 +18,6 @@ export const jwtAuth = (req, res, next) => {
         if (error.name === 'TokenExpiredError') {
             return res.status(401).send('Falha na autenticação, token expirou');
         }
-        console.log()
         return res.status(401).send('Falha na autenticação, token inválido.');    
     }
 }

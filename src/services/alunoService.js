@@ -81,10 +81,13 @@ export async function salvarOuAtualizarAluno(body, rg = null) {
             mensalidade: 0,
             data_cadastro: new Date(),
             id_categoria: body.id_categoria,
+            cpf_responsavel: cpfResponsavel,
         };
 
         if (rg) {
             await atualiza_dados_cadastro(dadosAluno, rg, connection);
+            await atualiza_historico_pagamento(dadosAluno.nome, rg, connection);
+            await atualiza_historico_presenca(dadosAluno.nome, rg, connection);
         } else {
             const alunoExistente = await get_alunos_rg(body.rg);
             if (alunoExistente.length) {
