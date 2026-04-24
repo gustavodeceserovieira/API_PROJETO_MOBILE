@@ -5,6 +5,16 @@ export async function deleta_presenca_aluno(rg_aluno, transaction = pool) {
     return rows
 }
 
+export async function delete_usuario_aluno(rg_aluno, transaction = pool) {
+    const [rows] = await transaction.execute('DELETE FROM usuario WHERE rg_aluno=?', [rg_aluno])
+    return rows
+}
+
+export async function deleta_mensalidades_aluno(rg_aluno, transaction = pool) {
+    const [rows] = await transaction.execute('DELETE FROM mensalidades WHERE rg_aluno=?', [rg_aluno])
+    return rows
+}
+
 export async function deleta_presenca_data(data_presenca, transaction = pool) {
     const [rows] = await transaction.execute('DELETE FROM presenca WHERE data_presenca=?', [data_presenca])
     return rows

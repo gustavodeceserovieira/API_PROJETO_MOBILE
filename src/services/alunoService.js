@@ -6,6 +6,7 @@ import { get_responsaveis } from '../models/responsaveisModel.js';
 import { salvarOuAtualizarResponsavel } from './responsaveisService.js';
 import { get_mensalidades_by_aluno } from '../models/mensalidadesModel.js';
 import { criarOuAtualizarUsuario } from './usuariosService.js';
+import { deleta_mensalidades_aluno, delete_usuario_aluno } from '../models/presencaModel.js';
 import pool from '../bd/bd.js';
 
 function formataDataNascimento(data) {
@@ -153,6 +154,8 @@ export async function removerAluno(rg_aluno) {
     try {
         await connection.beginTransaction();
 
+        await delete_usuario_aluno(rg_aluno, connection);
+        await deleta_mensalidades_aluno(rg_aluno, connection);
         await deleta_presenca_aluno(rg_aluno, connection);
         await deleta_aluno_historico(rg_aluno, connection);
 
