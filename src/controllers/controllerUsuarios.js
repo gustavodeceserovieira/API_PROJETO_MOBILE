@@ -6,8 +6,7 @@ export async function getUsuarios(req, res){
 }
 
 export async function criaUsuario(req, res) {
-    console.log(req.body);
-    const result = await criarUsuario(req.body.nome, req.body.senha);
+    const result = await criarUsuario(req.body);
     return res.status(result.status).json(result.body);
 }
 
@@ -20,3 +19,4 @@ export async function updateSenha(req, res) {
     const result = await atualizarSenha(req.body);
     return res.status(result.status).json(result.body);
 }
+

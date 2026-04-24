@@ -6,8 +6,8 @@ export async function deleta_aluno(rg_aluno, transaction = pool) {
 }
 
 export async function salva_dados_alunos(dados, transaction = pool) {
-    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, telefone, data_nascimento, frequencia, faltas, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?,?)',
-        [dados['rg'], dados['nome'], dados['telefone'], dados['data_nascimento'], dados['frequencia'], dados['faltas'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
+    const [rows] = await transaction.execute('INSERT INTO aluno (rg_aluno, nome, telefone, data_nascimento, mensalidade, data_cadastro,id_categoria) VALUES (?,?,?,?,?,?,?,?,?)',
+        [dados['rg'], dados['nome'], dados['telefone'], dados['data_nascimento'], dados['mensalidade'], dados['data_cadastro'], dados["id_categoria"]]
     );
     return rows
 }
@@ -21,6 +21,8 @@ export async function get_alunos_rg(rg) {
     const [rows] = await pool.execute(`
         SELECT 
             a.*,
+            af.frequencia,
+            af.faltas,
             DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
             r.nome AS nome_responsavel, 
             r.telefone AS telefone_responsavel, 
@@ -29,7 +31,8 @@ export async function get_alunos_rg(rg) {
         FROM aluno a
         LEFT JOIN responsaveis r ON a.cpf_responsavel = r.cpf
         LEFT JOIN categorias c ON a.id_categoria = c.id
-        WHERE rg_aluno=? order by nome asc`, [rg]);
+        LEFT JOIN view_aluno_frequencia af ON a.rg_aluno = af.rg_aluno
+        WHERE a.rg_aluno=? order by nome asc`, [rg]);
     return rows
 }
 
@@ -70,25 +73,8 @@ export async function atualiza_mensalidade(dados){
     return rows
 }
 
-export async function zera_faltas(transaction = pool) {
-    await transaction.execute('SET SQL_SAFE_UPDATES=0')
-    const row = await transaction.execute('UPDATE aluno SET faltas=0, frequencia=100 WHERE rg_aluno IS NOT NULL')
-    await transaction.execute('SET SQL_SAFE_UPDATES=1')
-    return row
-}
-
-export async function atualiza_frequencia(dados, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE aluno SET frequencia=? WHERE rg_aluno=?', [dados['frequencia'], dados['rg_aluno']])
-    return rows
-}
-
 export async function zera_mensalidade(transaction = pool) {
     const [rows] = await transaction.execute('UPDATE aluno SET mensalidade=? WHERE rg_aluno!=?', [0, ' '])
-    return rows
-}
-
-export async function atualiza_presenca(dados, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE aluno SET frequencia=?, faltas=? WHERE rg_aluno=?', [dados['frequencia'], dados['faltas'], dados['rg']])
     return rows
 }
 
@@ -96,6 +82,8 @@ export async function get_alunos_com_filtros(filtros = {}) {
     let query = `
         SELECT 
             a.*,
+            af.frequencia,
+            af.faltas,
             DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
             r.nome AS nome_responsavel,
             r.telefone AS telefone_responsavel,
@@ -104,6 +92,7 @@ export async function get_alunos_com_filtros(filtros = {}) {
         FROM aluno a 
         LEFT JOIN responsaveis r ON a.cpf_responsavel = r.cpf 
         LEFT JOIN categorias c ON a.id_categoria = c.id
+        LEFT JOIN view_aluno_frequencia af ON a.rg_aluno = af.rg_aluno
         WHERE 1=1`;
     const params = [];
 
