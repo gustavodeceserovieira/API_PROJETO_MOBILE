@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { get_usuario_by_id, get_usuario_by_rg, salvar_expo_token_usuario } from '../models/usuarioModel.js';
 import { get_alunos_rg, get_resumo } from '../models/alunoModel.js';
+import { getDadosUsuario } from './usuariosService.js';
 
 dotenv.config();
 
@@ -16,42 +17,26 @@ export async function autenticarUsuario(body) {
 
         for (const element of dadosUsuariobanco['usuarios']) {
             if (((element['nome'] == email && email == "Administrador") || element['rg_aluno'] == email) && await bcrypt.compare(password, element['senha'])) {
-                const payload = {
-                    idUsuario: element.id,
-                    usuario: element.nome,
-                    role: 'USER',
-                };
-
-                if (element.nome == 'Administrador') {
-                    payload.role = 'ADMIN';
-                }
-
                 if (expoToken) {
                     await salvar_expo_token_usuario(expoToken, element.id);
                 }
                 
-                const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '0.5h' });
+                const dadosUsuario = await getDadosUsuario(element);
 
-                let dadosAdicionais = {};
-
-                if (payload.role === 'USER') {
-                    const aluno = await get_alunos_rg(element.rg_aluno);
-                    dadosAdicionais = aluno;
-                } else {
-                    const resumo = await get_resumo();
-                    dadosAdicionais = resumo;
-                }
+                const payloadToken = {
+                    idUsuario: dadosUsuario.idUsuario,
+                    usuario: dadosUsuario.usuario,
+                    role: dadosUsuario.role,
+                };
+                
+                const token = jwt.sign(payloadToken, process.env.JWT_SECRET, { expiresIn: '0.5h' });
 
                 return {
                     status: 201,
                     body: {
                         mensagem: 'Usuário autenticado com sucesso!',
                         token: token,
-                        user: {
-                            ...dadosAdicionais,
-                            ...element,
-                            role: payload.role,
-                        }
+                        user: dadosUsuario
                     },
                 };
             }
@@ -67,20 +52,6 @@ export async function autenticarUsuario(body) {
             body: { mensagem: err.message },
         };
     }
-}
-
-function buildPayloadAcesso(usuario) {
-    const payload = {
-        idUsuario: usuario.id,
-        usuario: usuario.nome,
-        role: 'USER',
-    };
-
-    if (usuario.nome == 'Administrador') {
-        payload.role = 'ADMIN';
-    }
-
-    return payload;
 }
 
 export async function ativarBiometria(body, usuarioToken) {
@@ -175,18 +146,20 @@ export async function autenticarUsuarioBiometria(body) {
             await salvar_expo_token_usuario(expoToken, usuario.id);
         }
 
-        const payload = buildPayloadAcesso(usuario);
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '0.5h' });
+        const dadosUsuario = await getDadosUsuario(usuario);
+        const payloadToken = {
+            idUsuario: dadosUsuario.idUsuario,
+            usuario: dadosUsuario.usuario,
+            role: dadosUsuario.role,
+        };
+        const token = jwt.sign(payloadToken, process.env.JWT_SECRET, { expiresIn: '0.5h' });
 
         return {
             status: 201,
             body: {
                 mensagem: 'Usuário autenticado com sucesso via biometria!',
                 token,
-                user: {
-                    ...usuario,
-                    role: payload.role,
-                },
+                user: dadosUsuario,
             },
         };
     } catch (err) {

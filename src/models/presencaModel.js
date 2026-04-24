@@ -27,11 +27,6 @@ export async function retorna_presenca() {
     return rows
 }
 
-export async function atualiza_historico_presenca(nome, rg_aluno, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE presenca SET nome=? WHERE rg_aluno=?', [nome, rg_aluno])
-    return rows
-}
-
 export async function get_presenca_by_aluno(rg_aluno, transaction = pool) {
     const [rows] = await transaction.execute('SELECT * FROM presenca WHERE rg_aluno=?', [rg_aluno])
     return rows

@@ -3,7 +3,7 @@ import {jwtAuth, authorize} from "../middlewares/authMiddleware.js";
 import {criaUsuario, deletaUsuario, getUsuarios} from "../controllers/controllerUsuarios.js";
 import fazlogin, { ativarLoginBiometria, loginBiometria } from "../controllers/controllerLogin.js";
 import {validarCampos} from '../middlewares/validacoesMiddleware.js';
-import { updateSenha } from '../controllers/controllerUsuarios.js';
+import { updateSenha, getDadosUsuario } from '../controllers/controllerUsuarios.js';
 
 const router = Router();
 
@@ -14,5 +14,6 @@ router.post("/login_biometria", validarCampos(['tokenBiometria', 'deviceId']), l
 router.post("/ativar_login_biometria", jwtAuth, authorize(['USER', 'ADMIN']), validarCampos(['deviceId']), ativarLoginBiometria);
 router.get("/get_usuarios", jwtAuth, authorize(['ADMIN']), getUsuarios);
 router.post("/atualizar_senha", jwtAuth, authorize(['USER', 'ADMIN']), validarCampos(['id', 'senhaAtual', 'senhaNova']), updateSenha);
+router.get("/get_dados_usuario", jwtAuth, authorize(['USER', 'ADMIN']), getDadosUsuario);
 
 export default router;

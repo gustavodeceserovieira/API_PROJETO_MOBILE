@@ -2,6 +2,7 @@ import { get_ajustes } from '../models/ajustesModel.js';
 import { get_alunos_rg, retorna_alunos_por_categoria } from '../models/alunoModel.js';
 import { retorna_presenca, insere_presenca, deleta_presenca_data, get_datas_lancadas, get_lista_presenca, get_presenca_by_aluno } from '../models/presencaModel.js';
 import pool from '../bd/bd.js';
+import { zerarHora } from '../functions/functions.js';
 
 export async function registrarPresencaCategoria(body) {
     const connection = await pool.getConnection();
@@ -10,6 +11,39 @@ export async function registrarPresencaCategoria(body) {
 
         const presenca = body.presenca;
         const alunos = presenca.alunos;
+
+        const ajustes = await get_ajustes(connection);
+        if (!ajustes || !ajustes.data_inicio_aulas || !ajustes.data_fim_aulas) {
+            await connection.rollback();
+            return {
+                status: 400,
+                body: { mensagem: 'Período letivo não configurado.' },
+            };
+        }
+
+        const dataPresenca = new Date(`${String(presenca.data_presenca).slice(0, 10)}T00:00:00`);
+        const dataInicioAulas = zerarHora(ajustes.data_inicio_aulas);
+        const dataFimAulas = zerarHora(ajustes.data_fim_aulas);
+
+        if (
+            Number.isNaN(dataPresenca.getTime()) ||
+            Number.isNaN(dataInicioAulas.getTime()) ||
+            Number.isNaN(dataFimAulas.getTime())
+        ) {
+            await connection.rollback();
+            return {
+                status: 400,
+                body: { mensagem: 'Configure o período letivo.' },
+            };
+        }
+
+        if (dataPresenca < dataInicioAulas || dataPresenca > dataFimAulas) {
+            await connection.rollback();
+            return {
+                status: 400,
+                body: { mensagem: 'A data da chamada deve estar dentro do período letivo.' },
+            };
+        }
 
         await deleta_presenca_data(presenca.data_presenca, connection);
 

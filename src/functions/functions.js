@@ -30,3 +30,9 @@ export async function enviarNotificacao(tokenDestinatario, titulo, mensagem) {
     });
     return response;
 }
+
+export function zerarHora (data) {
+    const d = new Date(data);
+    d.setHours(0, 0, 0, 0);
+    return d;
+};

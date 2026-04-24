@@ -10,6 +10,8 @@ import responsaveisRoutes from './src/routes/responsaveisRoutes.js'
 import usuarioRoutes from './src/routes/usuarioRoutes.js'
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs'
+import { get_ajustes } from './src/models/ajustesModel.js';
+import { agendarGeracaoMensalidade, exibirCronsMensalidadeAgendadas } from './src/functions/mensalidadeCron.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,6 +36,28 @@ app.get("/",(req,res) =>{
     res.redirect("/api-docs")
 })
 
-app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-});
+async function inicializarCronsMensalidade() {
+    try {
+        const ajustes = await get_ajustes();
+
+        if (ajustes && ajustes.data_virada_mes && ajustes.valor_mensalidade !== undefined && ajustes.valor_mensalidade !== null) {
+            agendarGeracaoMensalidade(ajustes.data_virada_mes, ajustes.valor_mensalidade);
+        } else {
+            console.log('[Cron Mensalidades] Ajustes incompletos para agendamento automático na inicialização.');
+        }
+    } catch (error) {
+        console.error('[Cron Mensalidades] Erro ao inicializar crons:', error.message);
+    } finally {
+        exibirCronsMensalidadeAgendadas();
+    }
+}
+
+async function iniciarServidor() {
+    await inicializarCronsMensalidade();
+
+    app.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+    });
+}
+
+iniciarServidor();

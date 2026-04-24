@@ -14,9 +14,3 @@ export async function retorna_historico_pagamento() {
     const [rows] = await pool.execute('SELECT * FROM historico_pagamento order by data_pagamento desc');
     return rows
 }
-
-export async function atualiza_historico_pagamento(nome, rg_antigo, transaction = pool) {
-    const [rows] = await transaction.execute('UPDATE historico_pagamento SET nome_aluno=? WHERE rg_aluno=?', [nome, rg_antigo])
-    return rows
-}
-

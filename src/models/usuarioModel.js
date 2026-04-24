@@ -16,6 +16,14 @@ export async function atualizar_senha(id, senha, transaction = pool) {
     await transaction.execute('UPDATE usuario SET senha=? WHERE id=?', [senha, id]);
 }
 
+export async function atualizar_nome_senha(id, nome, senha, transaction = pool) {
+    await transaction.execute('UPDATE usuario SET nome=?, senha=? WHERE id=?', [nome, senha, id]);
+}
+
+export async function atualizar_nome(id, nome, transaction = pool) {
+    await transaction.execute('UPDATE usuario SET nome=? WHERE id=?', [nome, id]);
+}
+
 export async function login() {
     const [rows] = await pool.execute('SELECT * FROM usuario');
     return {

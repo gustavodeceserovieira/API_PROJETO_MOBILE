@@ -5,6 +5,7 @@ import { get_mensalidades_by_aluno, atualiza_pago_mensalidade, insere_mensalidad
 import pool from '../bd/bd.js';
 import { get_alunos } from '../models/alunoModel.js';
 import { agendarGeracaoMensalidade } from '../functions/mensalidadeCron.js';
+import { delete_all_cobrancas } from '../models/cobrancaModel.js';
 
 function primeiroDiaDoMes(data) {
     return new Date(data.getFullYear(), data.getMonth(), 1);
@@ -269,37 +270,24 @@ export async function listarMensalidades(mes, ano) {
 export async function gerarMensalidades(ajustes, connection = null) {
     let conn = connection;
     const controlaTransacao = !connection;
-    try {
-        if (!conn) {
-            conn = await pool.getConnection();
-        }
 
-        const { valor_mensalidade, data_virada_mes, data_inicio_aulas } = ajustes;
-
-        if (controlaTransacao) {
-            await conn.beginTransaction();
-        }
-
-        await delete_mensalidades_futuras(conn);
-        await gerar_mensalidades_retroativas(data_inicio_aulas, valor_mensalidade, conn);
-
-        if (controlaTransacao) {
-            await conn.commit();
-        }
-
-        agendarGeracaoMensalidade(data_virada_mes, valor_mensalidade);
-
-        return {
-            status: 200,
-            body: { mensagem: 'Mensalidades geradas e agendamento atualizado!' },
-        };
-    } catch (err) {
-        if (conn && controlaTransacao) await conn.rollback();
-        return {
-            status: 500,
-            body: { mensagem: err.message },
-        };
-    } finally {
-        if (!connection && conn) conn.release(); 
+    if (!conn) {
+        conn = await pool.getConnection();
     }
+
+    const { valor_mensalidade, data_virada_mes, data_inicio_aulas, data_fim_aulas } = ajustes;
+
+    if (controlaTransacao) {
+        await conn.beginTransaction();
+    }
+
+    await delete_all_cobrancas(conn);
+    await delete_mensalidades_futuras(conn);
+    await gerar_mensalidades_retroativas(data_inicio_aulas, data_fim_aulas, valor_mensalidade, conn);
+
+    if (controlaTransacao) {
+        await conn.commit();
+    }
+
+    agendarGeracaoMensalidade(data_virada_mes, valor_mensalidade);
 }

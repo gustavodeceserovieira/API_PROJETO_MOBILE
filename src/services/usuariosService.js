@@ -1,6 +1,11 @@
-import { cria_usuario, login, deleta_usuario, get_usuarios, get_usuario_by_id, atualizar_senha, get_usuario_by_rg } from '../models/usuarioModel.js';
+import { cria_usuario, login, deleta_usuario, get_usuarios, get_usuario_by_id, atualizar_senha, get_usuario_by_rg, atualizar_nome, atualizar_nome_senha } from '../models/usuarioModel.js';
 import pool from '../bd/bd.js';
 import bcrypt from 'bcrypt';
+import { get_alunos_rg, get_resumo } from '../models/alunoModel.js';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export async function listarUsuarios() {
     try {
@@ -130,13 +135,70 @@ export async function atualizarSenha(body) {
 }
 
 export async function criarOuAtualizarUsuario(dadosAluno, connection = pool) {
-    const password = dadosAluno.data_nascimento.split('-').reverse().join('');
+    const password = dadosAluno.data_nascimento.split('-').join('');
     const usuario = await get_usuario_by_rg(dadosAluno.rg, connection);
     const hashSenha = await bcrypt.hash(password, 10);
 
-    if (usuario && !usuario.ultimo_acesso) {
-        await atualizar_senha(usuario.id, hashSenha, connection);
+    if (usuario) {
+        if (!usuario.ultimo_acesso) {
+           await atualizar_nome_senha(usuario.id, dadosAluno.nome, hashSenha, connection);
+        } else {
+            await atualizar_nome(usuario.id, dadosAluno.nome, connection);
+        }
     } else if (!usuario) {
         await cria_usuario(dadosAluno.nome, hashSenha, dadosAluno.rg, connection);
+    }
+}
+
+export async function getDadosUsuario(usuario) {
+    const connection = await pool.getConnection();
+    try {
+        let dados = {
+            ...usuario,
+            idUsuario: usuario.id,
+            usuario: usuario.nome,
+            role: usuario.nome == 'Administrador' ? 'ADMIN' : 'USER',
+        };
+
+        if (dados.role === 'USER') {
+            const aluno = await get_alunos_rg(usuario.rg_aluno);
+            dados = {...aluno, ...dados};
+        } else {
+            const resumo = await get_resumo();
+            dados = {...resumo, ...dados};
+        }
+
+        delete usuario.senha;
+
+        return dados
+    } catch (err) {
+        return {
+            status: 500,
+            body: { mensagem: err.message },
+        };
+    } finally {
+        if (connection) connection.release();
+    }
+}
+
+export async function getDadosUsuarioByToken(authHeader) {
+    const connection = await pool.getConnection();
+    try {
+        const token = authHeader && authHeader.split(' ')[1];
+        const dadosUsuario = jwt.verify(token, process.env.JWT_SECRET);
+        const usuario = await get_usuario_by_id(dadosUsuario.idUsuario);
+        const dados = await getDadosUsuario(usuario);
+
+        return {
+            status: 200,
+            body: { usuario: dados },
+        };
+    } catch (err) {
+        return {
+            status: 500,
+            body: { mensagem: err.message },
+        };
+    } finally {
+        if (connection) connection.release();
     }
 }

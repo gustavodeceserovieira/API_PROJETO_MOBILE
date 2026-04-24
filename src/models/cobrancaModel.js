@@ -14,3 +14,8 @@ export async function delete_cobrancas_by_mensalidade(id_mensalidade, transactio
     const [rows] = await transaction.execute('DELETE FROM cobranca WHERE id_mensalidade = ?', [id_mensalidade])
     return rows
 }
+
+export async function delete_all_cobrancas(transaction = pool) {
+    const [rows] = await transaction.execute('DELETE FROM cobranca WHERE id > 0');
+    return rows;
+}

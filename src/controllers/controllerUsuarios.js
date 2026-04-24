@@ -1,4 +1,4 @@
-import { listarUsuarios, criarUsuario, removerUsuario, atualizarSenha } from '../services/usuariosService.js';
+import { listarUsuarios, criarUsuario, removerUsuario, atualizarSenha, getDadosUsuarioByToken } from '../services/usuariosService.js';
 
 export async function getUsuarios(req, res){
     const result = await listarUsuarios();
@@ -20,3 +20,8 @@ export async function updateSenha(req, res) {
     return res.status(result.status).json(result.body);
 }
 
+export async function getDadosUsuario(req, res) {
+    const authHeader = req.headers['authorization'];
+    const result = await getDadosUsuarioByToken(authHeader);
+    return res.status(result.status).json(result.body);
+}

@@ -1,7 +1,7 @@
 import { get_alunos, retorna_categorias_dos_alunos, get_rg, retorna_alunos_por_categoria, salva_dados_alunos, atualiza_dados_cadastro, deleta_aluno, get_alunos_rg, get_alunos_com_filtros, count_alunos_com_filtros } from '../models/alunoModel.js';
 import { get_categoria } from '../models/categoriasModel.js';
-import { deleta_aluno_historico, atualiza_historico_pagamento } from '../models/historicoPagamentoModel.js';
-import { deleta_presenca_aluno, atualiza_historico_presenca, get_presenca_by_aluno } from '../models/presencaModel.js';
+import { deleta_aluno_historico } from '../models/historicoPagamentoModel.js';
+import { deleta_presenca_aluno, get_presenca_by_aluno } from '../models/presencaModel.js';
 import { get_responsaveis } from '../models/responsaveisModel.js';
 import { salvarOuAtualizarResponsavel } from './responsaveisService.js';
 import { get_mensalidades_by_aluno } from '../models/mensalidadesModel.js';
@@ -11,6 +11,21 @@ import pool from '../bd/bd.js';
 function formataDataNascimento(data) {
     const [dia, mes, ano] = data.split('/');
     return `${ano}-${mes}-${dia}`;
+}
+
+function dataNascimentoEhFutura(data) {
+    const [dia, mes, ano] = data.split('/').map(Number);
+    const dataNascimento = new Date(ano, mes - 1, dia);
+
+    if (Number.isNaN(dataNascimento.getTime())) {
+        return false;
+    }
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+    dataNascimento.setHours(0, 0, 0, 0);
+
+    return dataNascimento > hoje;
 }
 
 export async function listarInformacoesAlunos(filtros = {}) {
@@ -69,6 +84,14 @@ export async function salvarOuAtualizarAluno(body, rg = null) {
     try {
         await connection.beginTransaction();
 
+        if (dataNascimentoEhFutura(body.data_nascimento)) {
+            await connection.rollback();
+            return {
+                status: 400,
+                body: { mensagem: 'Data de nascimento nao pode ser no futuro!' },
+            };
+        }
+
         const nomeResponsavel = body.nome_responsavel;
         const telefoneResponsavel = body.telefone_responsavel.replace(/\D/g, '')
         const cpfResponsavel = body.cpf_responsavel.replace(/\D/g, '');
@@ -86,15 +109,13 @@ export async function salvarOuAtualizarAluno(body, rg = null) {
 
         if (rg) {
             await atualiza_dados_cadastro(dadosAluno, rg, connection);
-            await atualiza_historico_pagamento(dadosAluno.nome, rg, connection);
-            await atualiza_historico_presenca(dadosAluno.nome, rg, connection);
         } else {
             const alunoExistente = await get_alunos_rg(body.rg);
             if (alunoExistente.length) {
                 await connection.rollback();
                 return {
                     status: 409,
-                    body: { mensagem: 'Aluno já está cadastrado!' },
+                    body: { mensagem: 'Já existe um aluno cadastrado com este RG!' },
                 };
             }
             await salva_dados_alunos(dadosAluno, connection);

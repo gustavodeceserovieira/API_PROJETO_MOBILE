@@ -103,14 +103,14 @@ export async function delete_mensalidades_fora_periodo(data_inicial, data_final,
 export async function delete_mensalidades_futuras(transaction = pool) {
     const query = `
         DELETE FROM mensalidades 
-        WHERE STR_TO_DATE(CONCAT(ano, '-', mes, '-01'), '%Y-%m-%d') > LAST_DAY(NOW());
+        WHERE id > 0 AND STR_TO_DATE(CONCAT(ano, '-', mes, '-01'), '%Y-%m-%d') > LAST_DAY(NOW());
     `;
 
     const [result] = await transaction.execute(query);
     return result;
 }
 
-export async function gerar_mensalidades_retroativas(data_inicial, valor, transaction = pool) {    
+export async function gerar_mensalidades_retroativas(data_inicial, data_final, valor, transaction = pool) {
     const query = `
         INSERT IGNORE INTO mensalidades (rg_aluno, valor, ano, mes, pago)
         WITH RECURSIVE meses_sequencia AS (
@@ -120,7 +120,7 @@ export async function gerar_mensalidades_retroativas(data_inicial, valor, transa
             
             SELECT data_inicial + INTERVAL 1 MONTH
             FROM meses_sequencia
-            WHERE data_inicial + INTERVAL 1 MONTH <= LAST_DAY(NOW())
+            WHERE data_inicial + INTERVAL 1 MONTH <= LAST_DAY(?)
         ),
         meses AS (
             SELECT 
@@ -138,11 +138,11 @@ export async function gerar_mensalidades_retroativas(data_inicial, valor, transa
             m.mes,
             0 AS pago
         FROM alunos a
-        CROSS JOIN meses m -- CROSS JOIN é o mesmo que JOIN ON TRUE
+        CROSS JOIN meses m
         ORDER BY a.rg_aluno, m.ano, m.mes;
     `;
 
-    const [result] = await transaction.execute(query, [data_inicial, valor]);
+    const [result] = await transaction.execute(query, [data_inicial, data_final, valor]);
     return result;
 }
 

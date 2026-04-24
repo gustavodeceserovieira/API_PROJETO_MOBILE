@@ -19,11 +19,13 @@ export async function get_alunos() {
 
 export async function get_alunos_rg(rg) {
     const [rows] = await pool.execute(`
-        SELECT 
+        SELECT DISTINCT
             a.*,
             af.frequencia,
             af.faltas,
+            af.possui_pendencias,
             DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
+            u.ultimo_acesso IS NOT NULL AS ja_acessou,
             r.nome AS nome_responsavel, 
             r.telefone AS telefone_responsavel, 
             r.cpf AS cpf_responsavel, 
@@ -32,6 +34,7 @@ export async function get_alunos_rg(rg) {
         LEFT JOIN responsaveis r ON a.cpf_responsavel = r.cpf
         LEFT JOIN categorias c ON a.id_categoria = c.id
         LEFT JOIN view_aluno_frequencia af ON a.rg_aluno = af.rg_aluno
+        LEFT JOIN usuario u ON u.rg_aluno = a.rg_aluno
         WHERE a.rg_aluno=? order by nome asc`, [rg]);
     return rows
 }
@@ -84,6 +87,7 @@ export async function get_alunos_com_filtros(filtros = {}) {
             a.*,
             af.frequencia,
             af.faltas,
+            af.possui_pendencias,
             DATE_FORMAT(a.data_nascimento, '%d/%m/%Y') AS data_nascimento,
             r.nome AS nome_responsavel,
             r.telefone AS telefone_responsavel,
@@ -108,9 +112,9 @@ export async function get_alunos_com_filtros(filtros = {}) {
 
     if (filtros.em_dia !== undefined) {
         if (filtros.em_dia === true || filtros.em_dia === 'true') {
-            query += ' AND a.mensalidade > 0';
+            query += ' AND af.possui_pendencias IS FALSE';
         } else if (filtros.em_dia === false || filtros.em_dia === 'false') {
-            query += ' AND a.mensalidade = 0';
+            query += ' AND af.possui_pendencias IS TRUE';
         }
     }
 
@@ -128,7 +132,12 @@ export async function get_alunos_com_filtros(filtros = {}) {
 }
 
 export async function count_alunos_com_filtros(filtros = {}) {
-    let query = 'SELECT COUNT(DISTINCT a.rg_aluno) as total FROM aluno a LEFT JOIN responsaveis r ON r.cpf = a.cpf_responsavel WHERE 1=1';
+    let query = `
+        SELECT COUNT(DISTINCT a.rg_aluno) as total 
+        FROM aluno a 
+        LEFT JOIN responsaveis r ON r.cpf = a.cpf_responsavel 
+        LEFT JOIN view_aluno_frequencia af ON a.rg_aluno = af.rg_aluno
+        WHERE 1=1`;
     const params = [];
 
     if (filtros.id_categoria) {
@@ -143,9 +152,9 @@ export async function count_alunos_com_filtros(filtros = {}) {
 
     if (filtros.em_dia !== undefined) {
         if (filtros.em_dia === true || filtros.em_dia === 'true') {
-            query += ' AND a.mensalidade > 0';
+            query += ' AND af.possui_pendencias IS FALSE';
         } else if (filtros.em_dia === false || filtros.em_dia === 'false') {
-            query += ' AND a.mensalidade = 0';
+            query += ' AND af.possui_pendencias IS TRUE';
         }
     }
 
@@ -157,8 +166,11 @@ export async function get_resumo(transaction = pool) {
     const [rows] = await transaction.execute(`
         SELECT 
             COUNT(*) AS quantidade_alunos,
-            ROUND(AVG(frequencia), 2) AS frequencia_media
-        FROM view_aluno_frequencia;`
+            ROUND(
+                SUM(CASE WHEN v.total_aulas > 0 THEN v.frequencia ELSE 0 END) / 
+                NULLIF(SUM(CASE WHEN v.total_aulas > 0 THEN 1 ELSE 0 END), 0), 
+            2) AS frequencia_media
+        FROM view_aluno_frequencia v;`
     );
     return rows[0]
 }
